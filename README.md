@@ -16,10 +16,33 @@ Agar topologi yang kalian buat dapat mengakses keluar, kalian diminta untuk meng
 
 ### :triangular_flag_on_post: **Jawaban:**
 
+### :rocket: **Router Strix** 
+```JavaScript
+IPETH0="$(ip -br a | grep eth0 | awk '{print $NF}' | cut -d'/' -f1)"
+iptables -t nat -A POSTROUTING -o eth0 -j SNAT --to-source "$IPETH0" -s 10.45.0.0/21
+```
+<br>
+
 # :large_blue_circle: **Soal 2** :large_blue_circle: 
 Kalian diminta untuk melakukan drop semua TCP dan UDP dari luar Topologi kalian pada server yang merupakan DHCP Server demi menjaga keamanan.
 
 ### :triangular_flag_on_post: **Jawaban:**
+
+### :rocket: **Router Strix** 
+```JavaScript
+iptables -A FORWARD -d 10.45.0.18 -i eth0 -p tcp --dport 80 -j DROP #WISE
+iptables -A FORWARD -d 10.45.0.18 -i eth0 -p udp --dport 53 -j DROP 
+```
+### :triangular_flag_on_post: **Testing di Server Garden - Web Server**  
+<img src="./img/Nomor2aTCP.png">
+
+### :triangular_flag_on_post: **Testing di Server SSS - Web Server**  
+<img src="./img/Nomor2bTCP.png">
+
+### :triangular_flag_on_post: **Testing di Client Briar**  
+<img src="./img/Nomor2cTCP.png">
+<br>
+<br>
 
 # :large_blue_circle: **Soal 3** :large_blue_circle: 
 Loid meminta kalian untuk membatasi DHCP dan DNS Server hanya boleh menerima maksimal 2 koneksi ICMP secara bersamaan menggunakan iptables, selebihnya didrop yang artinya hanya menerima koneksi 2 host selebihnya maka didrop
