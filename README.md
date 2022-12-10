@@ -358,7 +358,7 @@ iptables -A FORWARD -d 10.45.0.18 -i eth0 -p udp --dport 53 -j DROP
 <img src="./img/Nomor2aTCP.png">
 
 ### :triangular_flag_on_post: **Testing di Server SSS - Web Server**  
-<img src="./img/Nomor2bTCP.png">
+<img src="./img/nomor2bTCP.png">
 
 ### :triangular_flag_on_post: **Testing di Client Briar**  
 <img src="./img/Nomor2cTCP.png">
