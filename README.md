@@ -450,3 +450,15 @@ Karena Loid ingin tau paket apa saja yang di-drop, maka di setiap node server da
 
 
 ### :triangular_flag_on_post: **Jawaban:**
+Karena Loid ingin tau paket apa saja yang di-drop, maka di setiap node server dan router ditambahkan logging paket yang di-drop dengan standard syslog level.
+
+Untuk melihat packet apa saja yang di-drop, kami menggunakan perintah LOG --log-level 5 pada akhir perintah saat akan di-drop
+
+Contohnya pada DHCP Server(WISE) dan DNS Server(Eden):
+```
+iptables -A INPUT -p icmp -m connlimit --connlimit-above 2 --connlimit-mask 0 -j LOG --log-level 5
+
+iptables -A INPUT -p icmp -m connlimit --connlimit-above 2 --connlimit-mask 0 -j DROP
+```
+### :triangular_flag_on_post: **Kendala dan Revisi**
+No 6 belum saat demo dan no 6 sudah direvisi pada laporan
