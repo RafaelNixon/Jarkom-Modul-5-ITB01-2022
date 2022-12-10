@@ -410,10 +410,40 @@ manggunakan ping 10.45.0.8
 dan menggunakan ping 10.45.0.8
 <img src="./img/Nomor4_Wes Dec 7 09-35-00 UTC 2022.png">
 
-# :large_blue_circle: **Soal 5** :large_blue_circle: 
+# :large_blue_circle: **Nomor 5** :large_blue_circle:
 Karena kita memiliki 2 Web Server, Loid ingin Ostania diatur sehingga setiap request dari client yang mengakses Garden dengan port 80 akan didistribusikan secara bergantian pada SSS dan Garden secara berurutan dan request dari client yang mengakses SSS dengan port 443 akan didistribusikan secara bergantian pada Garden dan SSS secara berurutan.
 
-### :triangular_flag_on_post: **Jawaban:**
+### :rocket: **Router Ostania** 
+setiap request dari client yang mengakses Garden dengan port 80 akan didistribusikan secara bergantian pada SSS dan Garden secara berurutan
+
+```JavaScript
+iptables -A PREROUTING -t nat -p tcp -d 10.45.0.11 -m statistic --mode nth --every 2 --packet 0 -j DNAT --to-destination 10.45.0.10:80 #SSS
+iptables -A PREROUTING -t nat -p tcp -d 10.45.0.11 -j DNAT --to-destination 10.45.0.11:80 #Garden
+```
+request dari client yang mengakses SSS dengan port 443 akan didistribusikan secara bergantian pada Garden dan SSS secara berurutan
+
+```JavaScript
+iptables -A PREROUTING -t nat -p tcp -d 10.45.0.10 -m statistic --mode nth --every 2 --packet 0 -j DNAT --to-destination 10.45.0.11:80 #Garden
+iptables -A PREROUTING -t nat -p tcp -d 10.45.0.10 -j DNAT --to-destination 10.45.0.10:80 #SSS
+```
+
+<br>
+
+### :triangular_flag_on_post: **Testing di Client Briar**
+Testing di client Briar yang mengarah Server Garden
+<img src="./img/Nomo5a-Garden.png">
+Hasil Garden <br>
+`10.45.1.2 -> IP Client Briar`
+<br>
+<img src="./img/Nomor5a.png">
+<br>
+Testing di client Briar yang mengarah Server SSS
+<img src="./img/Nomo5b-SSS.png">
+Hasil Garden <br>
+`10.45.1.2 -> IP Client Briar`
+<br>
+<img src="./img/Nomor5b.png">
+<br>
 
 # :large_blue_circle: **Soal 6** :large_blue_circle: 
 Karena Loid ingin tau paket apa saja yang di-drop, maka di setiap node server dan router ditambahkan logging paket yang di-drop dengan standard syslog level.
