@@ -26,15 +26,15 @@ Loid meminta kalian untuk membatasi DHCP dan DNS Server hanya boleh menerima mak
 
 ### :triangular_flag_on_post: **Jawaban:**
 pada WISE masukan iptables
-'''
+```
 iptables -A INPUT -p icmp -m connlimit --connlimit-above 2 --connlimit-mask 0 -j DROP
-'''
+```
 kemudian melakukan testibg dengan melakukan ping pada Blackbell(Host 1), Briar(Host 2), Desmond(Host 3)
 
 kemudian masukan ip tables pada Eden 
-'''
+```
 iptables -A INPUT -p icmp -m connlimit --connlimit-above 2 --connlimit-mask 0 -j DROP
-'''
+```
 kemudian melakukan testibg dengan melakukan ping pada Blackbell(Host 1), Briar(Host 2), Desmond(Host 3)
 
 # :large_blue_circle: **Soal 4** :large_blue_circle: 
@@ -43,12 +43,12 @@ Akses menuju Web Server hanya diperbolehkan disaat jam kerja yaitu Senin sampai 
 ### :triangular_flag_on_post: **Jawaban:**
 pada soal ini kami melakukan konfigurasi pada Garden dan SSS untuk mengatur waktu Reject, dengan command
 
-'''
+```
 #Garden
 iptables -A INPUT -s 10.45.0.8/29 -m time --weekdays Sat,Sun -j REJECT
 iptables -A INPUT -s 10.45.0.8/29 -m time --timestart 00:00 --timestop 06:59 --weekdays Mon,Tue,Wed,Thu,Fri -j REJECT
 iptables -A INPUT -s 10.45.0.8/29 -m time --timestart 16:01 --timestop 23:59 --weekdays Mon,Tue,Wed,Thu,Fri -j REJECT
-'''
+```
 
 # :large_blue_circle: **Soal 5** :large_blue_circle: 
 Karena kita memiliki 2 Web Server, Loid ingin Ostania diatur sehingga setiap request dari client yang mengakses Garden dengan port 80 akan didistribusikan secara bergantian pada SSS dan Garden secara berurutan dan request dari client yang mengakses SSS dengan port 443 akan didistribusikan secara bergantian pada Garden dan SSS secara berurutan.
